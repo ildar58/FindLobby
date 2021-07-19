@@ -8,44 +8,44 @@ import {uniAssert} from '../classes/assert.class';
  */
 
 export function uniRequiredSetter<T extends object, K extends keyof T>(
-  assertion?: UniBooleanHandler<T[K]>,
-  ...args: any[]
+    assertion?: UniBooleanHandler<T[K]>,
+    ...args: any[]
 ): MethodDecorator {
-  return (
-    target: Object,
-    key,
-    {configurable, enumerable, get, set}: PropertyDescriptor
-  ): PropertyDescriptor => {
-    const {name} = target.constructor;
+    return (
+        target: Object,
+        key,
+        {configurable, enumerable, get, set}: PropertyDescriptor
+    ): PropertyDescriptor => {
+        const {name} = target.constructor;
 
-    return {
-      configurable,
-      enumerable,
-      get,
-      set(this: T, value: T[K]) {
-        if (value !== undefined && assertion) {
-          uniAssert.assert(
-            assertion.call(this, value),
-            `${String(key)} in ${name} received:`,
-            value,
-            ...args
-          );
-        }
+        return {
+            configurable,
+            enumerable,
+            get,
+            set(this: T, value: T[K]) {
+                if (value !== undefined && assertion) {
+                    uniAssert.assert(
+                        assertion.call(this, value),
+                        `${String(key)} in ${name} received:`,
+                        value,
+                        ...args
+                    );
+                }
 
-        if (!set || value === undefined) {
-          uniAssert.assert(value !== undefined, errorSet(key, name));
+                if (!set || value === undefined) {
+                    uniAssert.assert(value !== undefined, errorSet(key, name));
 
-          return;
-        }
+                    return;
+                }
 
-        set.call(this, value);
-      },
+                set.call(this, value);
+            },
+        };
     };
-  };
 }
 
 function errorSet(key: string | symbol, component: string): string {
-  return `Undefined was passed as ${String(
-    key
-  )} to ${component}, setter will not be called`;
+    return `Undefined was passed as ${String(
+        key
+    )} to ${component}, setter will not be called`;
 }

@@ -4,14 +4,14 @@ import {Routes, RouterModule} from '@angular/router';
 import {MessagesPage} from './messages.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: MessagesPage,
-  },
+    {
+        path: '',
+        component: MessagesPage,
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class MessagesPageRoutingModule {}

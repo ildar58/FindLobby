@@ -9,7 +9,7 @@ import {ModulesPageRoutingModule} from './modules-routing.module';
 import {ModulesPage} from './modules.page';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ModulesPageRoutingModule],
-  declarations: [ModulesPage],
+    imports: [CommonModule, FormsModule, IonicModule, ModulesPageRoutingModule],
+    declarations: [ModulesPage],
 })
 export class ModulesPageModule {}

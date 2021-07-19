@@ -1,3 +1,3 @@
 export interface UniContextWithImplicit<T> {
-  $implicit: T;
+    $implicit: T;
 }

@@ -1,3 +1,14 @@
-<ion-content>
-  <ion-input></ion-input>
+<ion-content [scrollY]="false" fullscreen>
+    <div class="container">
+        <ion-text class="title">Введите номер телефона</ion-text>
+
+        <ion-text class="description">Чтобы войти или стать пользователем UniMatch</ion-text>
+
+        <ion-input uniPhoneInput
+                   [value]="''"
+                   [inputmode]="'tel'">
+        </ion-input>
+
+        <ion-button>Продолжить</ion-button>
+    </div>
 </ion-content>
