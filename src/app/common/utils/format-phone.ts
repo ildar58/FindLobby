@@ -46,3 +46,13 @@ export function formatPhone(
 
     return result;
 }
+
+/**
+ * Принимает значения вида +7 XXX XXX-XX-XX
+ * И возвращает вида 7XXXXXXXXXX
+ */
+export function deFormatPhone(value: string, code = '+7'): string {
+    return value.replace(code, '').replace(NON_PLUS_AND_DIGITS_REGEX, '');
+}
+
+const NON_PLUS_AND_DIGITS_REGEX = /[ \-_()+]/g;

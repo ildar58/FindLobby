@@ -13,6 +13,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
 import {LoginPage} from './pages/login/login.page';
 import {PhoneInputDirective} from './common/directives/phone-input.directive';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
     declarations: [AppComponent, LoginPage, PhoneInputDirective],
@@ -24,6 +25,7 @@ import {PhoneInputDirective} from './common/directives/phone-input.directive';
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireAuthModule,
         AngularFirestoreModule,
+        ReactiveFormsModule,
     ],
     providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
     bootstrap: [AppComponent],

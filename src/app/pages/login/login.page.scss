@@ -9,12 +9,27 @@ ion-content {
     display: flex;
     flex-direction: column;
 
-    &-title {
+    .title {
+        color: var(--ion-color-base);
         width: 100%;
+        font-size: 24px;
         margin: 10px 0;
     }
 
-    &-description {
-        color: var(--ion-color-base)
+    .description {
+        color: var(--ion-color-medium)
+    }
+
+    .input {
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--ion-color-primary);
+
+        &.has-focus {
+            border-bottom: 1px solid var(--ion-color-primary-shade) !important;
+        }
+
+        &.ion-color.ion-color-danger{
+            border-bottom: 1px solid var(--ion-color-danger) !important;
+        }
     }
 }

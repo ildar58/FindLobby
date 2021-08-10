@@ -1,14 +1,18 @@
 <ion-content [scrollY]="false" fullscreen>
-    <div class="container">
-        <ion-text class="title">Введите номер телефона</ion-text>
+    <form class="container" [formGroup]="form" (ngSubmit)="handleSubmit()" novalidate>
+        <span class="title">Введите номер телефона</span>
 
-        <ion-text class="description">Чтобы войти или стать пользователем UniMatch</ion-text>
+        <span class="description">Чтобы войти или присоединиться к нам</span>
 
-        <ion-input uniPhoneInput
-                   [value]="''"
-                   [inputmode]="'tel'">
+        <ion-input class="input"
+                   [color]="phoneControl.valid ? null : 'danger'"
+                   mode="ios"
+                   uniPhoneInput
+                   type="tel"
+                   inputmode="tel"
+                   formControlName="phone">
         </ion-input>
 
-        <ion-button>Продолжить</ion-button>
-    </div>
+        <ion-button mode="ios" type="submit">Продолжить</ion-button>
+    </form>
 </ion-content>

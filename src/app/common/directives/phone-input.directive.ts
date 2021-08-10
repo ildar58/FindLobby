@@ -1,8 +1,7 @@
 import {Directive, ElementRef, HostListener} from '@angular/core';
 import {formatPhone} from '../utils/format-phone';
 
-// eslint-disable-next-line
-const NON_PLUS_AND_DIGITS_REGEX = /[ \-_\(\)]/g;
+const NON_PLUS_AND_DIGITS_REGEX = /[ \-_()]/g;
 
 @Directive({
     selector: '[uniPhoneInput]',
