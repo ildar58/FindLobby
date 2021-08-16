@@ -11,12 +11,10 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
-import {LoginPage} from './pages/login/login.page';
-import {PhoneInputDirective} from './common/directives/phone-input.directive';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
-    declarations: [AppComponent, LoginPage, PhoneInputDirective],
+    declarations: [AppComponent],
     entryComponents: [],
     imports: [
         BrowserModule,

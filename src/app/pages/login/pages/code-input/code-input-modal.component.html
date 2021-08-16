@@ -1,0 +1,32 @@
+<ion-header class="ion-no-border" mode="ios">
+    <ion-toolbar color="white">
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()" color="primary">Отмена</ion-button>
+        </ion-buttons>
+        <ion-title>Подтверждение</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+    <div class="container">
+        <span class="description">Введите код подтверждения</span>
+
+        <ng-container *uniLet="timer$ | async as time">
+            <ion-input class="input"
+                       [formControl]="control"
+                       [disabled]="controlDisable"
+                       autocomplete="off"
+                       mode="ios"
+                       type="tel"
+                       inputmode="tel">
+            </ion-input>
+
+            <ion-button [disabled]="time !== 60" (click)="resendCode()">Отправить код повторно</ion-button>
+
+
+            <span class="timer" *ngIf="time !== 60">
+                Повторная отправка через: {{60 - time}}
+            </span>
+        </ng-container>
+    </div>
+</ion-content>

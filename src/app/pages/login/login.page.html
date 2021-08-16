@@ -1,18 +1,21 @@
 <ion-content [scrollY]="false" fullscreen>
-    <form class="container" [formGroup]="form" (ngSubmit)="handleSubmit()" novalidate>
+    <div class="container">
         <span class="title">Введите номер телефона</span>
 
         <span class="description">Чтобы войти или присоединиться к нам</span>
 
         <ion-input class="input"
-                   [color]="phoneControl.valid ? null : 'danger'"
+                   [color]="control.valid ? null : 'danger'"
+                   [formControl]="control"
+                   autocomplete="off"
                    mode="ios"
                    uniPhoneInput
                    type="tel"
-                   inputmode="tel"
-                   formControlName="phone">
+                   inputmode="tel">
         </ion-input>
 
-        <ion-button mode="ios" type="submit">Продолжить</ion-button>
-    </form>
+        <ion-button mode="ios" (click)="handleSubmit()">Продолжить</ion-button>
+
+        <div id="recaptcha-container" style="display: none"></div>
+    </div>
 </ion-content>

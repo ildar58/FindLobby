@@ -27,10 +27,11 @@ ion-content {
         &.has-focus {
             border-bottom: 1px solid var(--ion-color-primary-shade) !important;
         }
+    }
 
-        &.ion-color.ion-color-danger{
-            border-bottom: 1px solid var(--ion-color-danger) !important;
-        }
+    .timer {
+        margin-top: 10px;
+        color: var(--ion-color-medium);
+        text-align: center;
     }
 }
-

@@ -5,15 +5,15 @@ import {
     redirectLoggedInTo,
     redirectUnauthorizedTo,
 } from '@angular/fire/auth-guard';
-import {LoginPage} from './pages/login/login.page';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/login']);
 const redirectLoggedIntoApp = () => redirectLoggedInTo(['/app']);
 
 const routes: Routes = [
     {
-        path: '',
-        component: LoginPage,
+        path: 'login',
+        loadChildren: () =>
+            import('./pages/login/login.module').then(m => m.LoginPageModule),
         ...canActivate(redirectLoggedIntoApp),
     },
     {
@@ -23,6 +23,10 @@ const routes: Routes = [
                 m => m.ModulesPageModule
             ),
         ...canActivate(redirectUnauthorizedToLogin),
+    },
+    {
+        path: '**',
+        redirectTo: 'login',
     },
 ];
 
