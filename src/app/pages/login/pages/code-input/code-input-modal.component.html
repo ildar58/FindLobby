@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border" mode="ios">
+<ion-header class="ion-no-border">
     <ion-toolbar color="white">
         <ion-buttons slot="start">
             <ion-button (click)="dismiss()" color="primary">Отмена</ion-button>
@@ -14,9 +14,8 @@
         <ng-container *uniLet="timer$ | async as time">
             <ion-input class="input"
                        [formControl]="control"
-                       [disabled]="controlDisable"
-                       autocomplete="off"
-                       mode="ios"
+                       [autofocus]="true"
+                       [clearInput]="true"
                        type="tel"
                        inputmode="tel">
             </ion-input>

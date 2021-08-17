@@ -7,14 +7,15 @@
         <ion-input class="input"
                    [color]="control.valid ? null : 'danger'"
                    [formControl]="control"
-                   autocomplete="off"
-                   mode="ios"
+                   [autofocus]="true"
+                   [clearInput]="true"
+                   [autocomplete]="true"
                    uniPhoneInput
                    type="tel"
                    inputmode="tel">
         </ion-input>
 
-        <ion-button mode="ios" (click)="handleSubmit()">Продолжить</ion-button>
+        <ion-button (click)="handleSubmit()">Продолжить</ion-button>
 
         <div id="recaptcha-container" style="display: none"></div>
     </div>

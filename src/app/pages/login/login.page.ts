@@ -3,7 +3,11 @@ import {UniDestroyService} from '../../common/services/destroy.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {deFormatPhone} from '../../common/utils/format-phone';
-import {ModalController} from '@ionic/angular';
+import {
+    AlertController,
+    LoadingController,
+    ModalController,
+} from '@ionic/angular';
 import {CodeInputModal} from './pages/code-input/code-input-modal.component';
 import firebase from 'firebase';
 import {AuthService} from '../../entities/services/auth.service';
@@ -22,8 +26,10 @@ export class LoginPage {
     constructor(
         @Inject(UniDestroyService)
         private readonly _destroy$: Observable<void>,
-        private readonly _modalController: ModalController,
-        private readonly _authService: AuthService
+        private readonly _modalCtrl: ModalController,
+        private readonly _loadingCtrl: LoadingController,
+        private readonly _authService: AuthService,
+        private readonly _alertCtrl: AlertController
     ) {}
 
     async ionViewDidEnter() {
@@ -47,22 +53,40 @@ export class LoginPage {
         );
     }
 
-    public handleSubmit(): void {
+    async handleSubmit(): Promise<any> {
         const control = this.control;
 
         if (control.value.length < 18) {
             control.setErrors({minLength: true});
         } else {
+            const loading = await this._loadingCtrl.create();
+            await loading.present();
             const phone = deFormatPhone(control.value);
             this._authService
                 .signInWithPhoneNumber(this.recaptchaVerifier, phone)
-                .then(() => this.openModal());
+                .then(
+                    async () => {
+                        await loading.dismiss();
+                        await this.openModal();
+                    },
+                    async err => {
+                        await loading.dismiss();
+                        const alert = await this._alertCtrl.create({
+                            header: 'Ошибка',
+                            message: err.message,
+                            buttons: ['OK'],
+                        });
+
+                        await alert.present();
+                    }
+                );
         }
     }
 
     async openModal() {
-        const modal = await this._modalController.create({
+        const modal = await this._modalCtrl.create({
             component: CodeInputModal,
+            swipeToClose: true,
         });
         return await modal.present();
     }

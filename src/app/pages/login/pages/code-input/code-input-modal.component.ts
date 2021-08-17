@@ -9,9 +9,14 @@ import {FormControl} from '@angular/forms';
 import {UniDestroyService} from '../../../../common/services/destroy.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {ModalController} from '@ionic/angular';
+import {
+    AlertController,
+    LoadingController,
+    ModalController,
+} from '@ionic/angular';
 import {createTimer} from '../../../../common/utils/create-timer';
 import {AuthService} from '../../../../entities/services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-code-input',
@@ -23,20 +28,22 @@ import {AuthService} from '../../../../entities/services/auth.service';
 export class CodeInputModal implements OnInit {
     public control = new FormControl('');
     public timer$ = createTimer(0, 60);
-    public controlDisable = false;
 
     constructor(
         @Inject(UniDestroyService)
-        private readonly destroy$: Observable<void>,
-        private readonly cdRef: ChangeDetectorRef,
-        private readonly modalController: ModalController,
-        private readonly authService: AuthService
+        private readonly _destroy$: Observable<void>,
+        private readonly _cdRef: ChangeDetectorRef,
+        private readonly _modalCtrl: ModalController,
+        private readonly _alertCtrl: AlertController,
+        private readonly _loadingCtrl: LoadingController,
+        private readonly _authService: AuthService,
+        private readonly _router: Router
     ) {}
 
     ngOnInit(): void {
         this.control.valueChanges
             .pipe(
-                takeUntil(this.destroy$),
+                takeUntil(this._destroy$),
                 filter(code => code.length === 6)
             )
             .subscribe(this.changeCode.bind(this));
@@ -47,18 +54,32 @@ export class CodeInputModal implements OnInit {
         console.log('resended');
     }
 
-    private changeCode(code: string): void {
+    private async changeCode(code: string): Promise<any> {
         if (code.length === 6) {
-            this.controlDisable = true;
-            this.authService
-                .enterVerificationCode(code)
-                .then(() => this.dismiss())
-                .catch(() => (this.controlDisable = false));
+            const loading = await this._loadingCtrl.create();
+            await loading.present();
+            this._authService.enterVerificationCode(code).then(
+                () => {
+                    loading.dismiss();
+                    this.dismiss();
+                    this._router.navigateByUrl('/app');
+                },
+                async err => {
+                    await loading.dismiss();
+                    const alert = await this._alertCtrl.create({
+                        header: 'Ошибка',
+                        message: err.message,
+                        buttons: ['OK'],
+                    });
+
+                    await alert.present();
+                }
+            );
         }
     }
 
     dismiss() {
-        this.modalController.dismiss({
+        this._modalCtrl.dismiss({
             dismissed: true,
         });
     }

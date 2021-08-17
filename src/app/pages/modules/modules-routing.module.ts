@@ -9,17 +9,17 @@ const routes: Routes = [
         component: ModulesPage,
         children: [
             {
+                path: 'lobby',
+                loadChildren: () =>
+                    import('./pages/lobby/lobby.module').then(
+                        m => m.LobbyPageModule
+                    ),
+            },
+            {
                 path: 'search',
                 loadChildren: () =>
                     import('./pages/search/search.module').then(
                         m => m.SearchPageModule
-                    ),
-            },
-            {
-                path: 'analytics',
-                loadChildren: () =>
-                    import('./pages/analytics/analytics.module').then(
-                        m => m.AnalyticsPageModule
                     ),
             },
             {
@@ -35,6 +35,11 @@ const routes: Routes = [
                     import('./pages/profile/profile.module').then(
                         m => m.ProfilePageModule
                     ),
+            },
+            {
+                path: '',
+                redirectTo: 'lobby',
+                pathMatch: 'full',
             },
         ],
     },

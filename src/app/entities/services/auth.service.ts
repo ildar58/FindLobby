@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import firebase from 'firebase';
 import RecaptchaVerifier = firebase.auth.RecaptchaVerifier;
+import {Router} from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
@@ -10,9 +11,11 @@ export class AuthService {
     private confirmationResult!: firebase.auth.ConfirmationResult;
     private currentUser: firebase.User | null = null;
 
-    constructor(private readonly afAuth: AngularFireAuth) {
-        this.afAuth.onAuthStateChanged(user => {
-            console.log('Changed: ', user);
+    constructor(
+        private readonly _afAuth: AngularFireAuth,
+        private readonly _router: Router
+    ) {
+        this._afAuth.onAuthStateChanged(user => {
             this.currentUser = user;
         });
     }
@@ -22,14 +25,13 @@ export class AuthService {
         phoneNumber: string
     ) {
         return new Promise<any>((resolve, reject) => {
-            this.afAuth
+            this._afAuth
                 .signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
                 .then(confirmationResult => {
                     this.confirmationResult = confirmationResult;
                     resolve(confirmationResult);
                 })
-                .catch(error => {
-                    console.log(error);
+                .catch(() => {
                     reject('SMS not sent');
                 });
         });
@@ -40,7 +42,6 @@ export class AuthService {
                 this.confirmationResult
                     .confirm(code)
                     .then(async result => {
-                        console.log(result);
                         const user = result.user;
                         resolve(user);
                     })
@@ -51,7 +52,8 @@ export class AuthService {
         }
     }
 
-    public signOut(): void {
-        this.afAuth.signOut();
+    async signOut(): Promise<any> {
+        await this._afAuth.signOut();
+        this._router.navigate(['/']);
     }
 }
