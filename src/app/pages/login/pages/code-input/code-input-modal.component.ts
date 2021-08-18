@@ -8,7 +8,7 @@ import {
 import {FormControl} from '@angular/forms';
 import {UniDestroyService} from '../../../../common/services/destroy.service';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {
     AlertController,
     LoadingController,
@@ -27,6 +27,7 @@ import {Router} from '@angular/router';
 })
 export class CodeInputModal implements OnInit {
     public control = new FormControl('');
+    public subscription!: Subscription;
     public timer$ = createTimer(0, 60);
 
     constructor(
@@ -41,7 +42,7 @@ export class CodeInputModal implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.control.valueChanges
+        this.subscription = this.control.valueChanges
             .pipe(
                 takeUntil(this._destroy$),
                 filter(code => code.length === 6)
@@ -49,37 +50,55 @@ export class CodeInputModal implements OnInit {
             .subscribe(this.changeCode.bind(this));
     }
 
-    public resendCode(): void {
+    async resendCode(): Promise<any> {
         this.timer$ = createTimer(0, 60);
-        console.log('resended');
+        const code = this.control.value;
+        const loading = await this._loadingCtrl.create();
+        await loading.present();
+        this._authService.enterVerificationCode(code).then(
+            async () => {
+                await loading.dismiss();
+                await this.dismiss();
+                await this._router.navigateByUrl('/app');
+            },
+            async err => {
+                await loading.dismiss();
+                const alert = await this._alertCtrl.create({
+                    header: 'Ошибка',
+                    message: err.message,
+                    buttons: ['OK'],
+                });
+
+                await alert.present();
+            }
+        );
     }
 
     private async changeCode(code: string): Promise<any> {
-        if (code.length === 6) {
-            const loading = await this._loadingCtrl.create();
-            await loading.present();
-            this._authService.enterVerificationCode(code).then(
-                () => {
-                    loading.dismiss();
-                    this.dismiss();
-                    this._router.navigateByUrl('/app');
-                },
-                async err => {
-                    await loading.dismiss();
-                    const alert = await this._alertCtrl.create({
-                        header: 'Ошибка',
-                        message: err.message,
-                        buttons: ['OK'],
-                    });
+        const loading = await this._loadingCtrl.create();
+        await loading.present();
+        this._authService.enterVerificationCode(code).then(
+            async () => {
+                await loading.dismiss();
+                await this.dismiss();
+                await this._router.navigateByUrl('/app');
+            },
+            async err => {
+                this.subscription.unsubscribe();
+                await loading.dismiss();
+                const alert = await this._alertCtrl.create({
+                    header: 'Ошибка',
+                    message: err.message,
+                    buttons: ['OK'],
+                });
 
-                    await alert.present();
-                }
-            );
-        }
+                await alert.present();
+            }
+        );
     }
 
-    dismiss() {
-        this._modalCtrl.dismiss({
+    async dismiss() {
+        await this._modalCtrl.dismiss({
             dismissed: true,
         });
     }

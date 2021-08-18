@@ -14,13 +14,12 @@
         <ng-container *uniLet="timer$ | async as time">
             <ion-input class="input"
                        [formControl]="control"
-                       [autofocus]="true"
-                       [clearInput]="true"
+                       clearInput="true"
                        type="tel"
                        inputmode="tel">
             </ion-input>
 
-            <ion-button [disabled]="time !== 60" (click)="resendCode()">Отправить код повторно</ion-button>
+            <ion-button [disabled]="time !== 60 && control.value.length !== 6" (click)="resendCode()">Отправить код повторно</ion-button>
 
 
             <span class="timer" *ngIf="time !== 60">
