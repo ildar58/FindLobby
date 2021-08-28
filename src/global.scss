@@ -26,17 +26,6 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 /* Override */
-ion-content {
-    --padding-start: 20px;
-    --padding-end: 20px;
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-}
-
-ion-tab-bar {
-    --background: var(--ion-color-light-tint);
-}
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
