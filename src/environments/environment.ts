@@ -5,15 +5,15 @@
 export const environment = {
     production: false,
     firebaseConfig: {
-        apiKey: 'AIzaSyDQp5b9kQmKXUo0cmqlliaUMuIdGZk_dmc',
-        authDomain: 'unimatch-f0bae.firebaseapp.com',
+        apiKey: 'AIzaSyBgeNSvPpdb0NaPtullEI2fxonshqSwg_A',
+        authDomain: 'findlobby-a1e65.firebaseapp.com',
         databaseURL:
-            'https://unimatch-f0bae-default-rtdb.europe-west1.firebasedatabase.app',
-        projectId: 'unimatch-f0bae',
-        storageBucket: 'unimatch-f0bae.appspot.com',
-        messagingSenderId: '90210373183',
-        appId: '1:90210373183:web:9eb7f3a4021820efeaf28a',
-        measurementId: 'G-8PSEK8SPHB',
+            'https://findlobby-a1e65-default-rtdb.europe-west1.firebasedatabase.app',
+        projectId: 'findlobby-a1e65',
+        storageBucket: 'findlobby-a1e65.appspot.com',
+        messagingSenderId: '856280690834',
+        appId: '1:856280690834:web:f6d7b352fa3ee93cd0764b',
+        measurementId: 'G-36XHNNWQJL',
     },
 };
 

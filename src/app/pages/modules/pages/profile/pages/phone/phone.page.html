@@ -1,0 +1,29 @@
+<ion-header class="header ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="app/profile" text=""></ion-back-button>
+        </ion-buttons>
+        <ion-title size="medium" color="dark">Изменить телефон</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <div class="container">
+        <div>
+            <ion-text color="medium">Телефон используется для входа и идентификации</ion-text>
+
+            <ion-input class="input"
+                       [color]="control.valid ? null : 'danger'"
+                       [formControl]="control"
+                       placeholder="Введите ваш телефон"
+                       autocomplete="tel"
+                       clearInput
+                       uniPhoneInput
+                       type="tel"
+                       inputmode="tel">
+            </ion-input>
+        </div>
+
+        <ion-button (click)="handleSubmit()">Продолжить</ion-button>
+    </div>
+</ion-content>

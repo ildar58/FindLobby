@@ -1,0 +1,6 @@
+@import '~src/assets/styles/theming';
+
+
+.header {
+    @include header;
+}

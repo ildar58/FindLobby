@@ -81,7 +81,7 @@ export class CodeInputModal implements OnInit {
             async () => {
                 await loading.dismiss();
                 await this.dismiss();
-                await this._router.navigateByUrl('/app');
+                await this._router.navigateByUrl('/app', {replaceUrl: true});
             },
             async err => {
                 this.subscription.unsubscribe();
