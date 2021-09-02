@@ -1,0 +1,31 @@
+<ion-content fullscreen>
+    <form class="container" [formGroup]="form" (ngSubmit)="submit()">
+        <span class="title">Привет!</span>
+
+        <ion-text color="medium">Нам нужно узнать о тебе еще немножко.</ion-text>
+
+        <ion-input class="input"
+                   placeholder="Логин (не менее 5 символов...)"
+                   formControlName="login"
+                   autofocus
+                   clearInput
+        >
+        </ion-input>
+
+        <ion-input class="input"
+                   placeholder="Имя"
+                   formControlName="firstName"
+                   clearInput
+        >
+        </ion-input>
+
+        <ion-input class="input"
+                   placeholder="Фамилия"
+                   formControlName="lastName"
+                   clearInput
+        >
+        </ion-input>
+
+        <ion-button type="submit" [disabled]="login.invalid || firstName.invalid || lastName.invalid">Продолжить</ion-button>
+    </form>
+</ion-content>

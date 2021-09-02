@@ -11,22 +11,22 @@ const redirectLoggedIntoApp = () => redirectLoggedInTo(['/app']);
 
 const routes: Routes = [
     {
-        path: 'login',
-        loadChildren: () =>
-            import('./pages/login/login.module').then(m => m.LoginPageModule),
-        ...canActivate(redirectLoggedIntoApp),
-    },
-    {
         path: 'app',
         loadChildren: () =>
             import('./pages/modules/modules.module').then(
                 m => m.ModulesPageModule
             ),
-        ...canActivate(redirectUnauthorizedToLogin),
+        // ...canActivate(redirectUnauthorizedToLogin),
+    },
+    {
+        path: 'login',
+        loadChildren: () =>
+            import('./pages/login/login.module').then(m => m.LoginPageModule),
+        // ...canActivate(redirectLoggedIntoApp),
     },
     {
         path: '**',
-        redirectTo: 'login',
+        redirectTo: 'app',
     },
 ];
 

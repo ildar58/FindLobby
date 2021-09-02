@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage, AngularFireUploadTask} from '@angular/fire/storage';
 import {BehaviorSubject, from, Observable, of, Subject} from 'rxjs';
-import {switchMap, take, takeUntil, tap} from 'rxjs/operators';
+import {map, switchMap, take, takeUntil, tap} from 'rxjs/operators';
 import ConfirmationResult = firebase.auth.ConfirmationResult;
 import {IUser} from '../interfaces/user.interface';
 import auth = firebase.auth;
@@ -78,6 +78,7 @@ export class AuthService {
                         .confirm(code)
                         .then(async credential => {
                             const user = credential.user;
+                            await this.createUserInDb(user as firebase.User);
                             resolve(user);
                         })
                         .catch(error => {
@@ -85,6 +86,21 @@ export class AuthService {
                         });
                 }
             );
+        }
+    }
+
+    private async createUserInDb(user: firebase.User) {
+        const isExist = await this._db
+            .doc(`users/${user.uid}`)
+            .get()
+            .pipe(map(d => d.exists));
+
+        if (!isExist) {
+            return this._db.doc(`users/${user?.uid}`).set({
+                created: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+        } else {
+            return of(null);
         }
     }
 
@@ -128,6 +144,16 @@ export class AuthService {
                 return from(uploadPromise);
             }),
             takeUntil(this.unsubscribe)
+        );
+    }
+
+    public checkLogin(login: string) {
+        return from(
+            this._db
+                .collection('users')
+                .ref.where('login', '==', login)
+                .get()
+                .then(d => !!d.docs[0])
         );
     }
 }

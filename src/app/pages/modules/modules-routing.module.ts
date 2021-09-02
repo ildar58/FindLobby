@@ -5,7 +5,7 @@ import {ModulesPage} from './modules.page';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'asda',
         component: ModulesPage,
         children: [
             {
@@ -42,6 +42,13 @@ const routes: Routes = [
                 pathMatch: 'full',
             },
         ],
+    },
+    {
+        path: '',
+        loadChildren: () =>
+            import('./pages/introduction/introduction.module').then(
+                m => m.IntroductionPageModule
+            ),
     },
 ];
 

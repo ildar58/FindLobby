@@ -47,12 +47,16 @@ export class CodeInputModal implements OnInit {
                 takeUntil(this._destroy$),
                 filter(code => code.length === 6)
             )
-            .subscribe(this.changeCode.bind(this));
+            .subscribe(this.sendCode.bind(this));
     }
 
-    async resendCode(): Promise<any> {
+    async resendCode(): Promise<void> {
         this.timer$ = createTimer(0, 60);
         const code = this.control.value;
+        await this.sendCode(code);
+    }
+
+    async sendCode(code: string): Promise<void> {
         const loading = await this._loadingCtrl.create();
         await loading.present();
         this._authService.enterVerificationCode(code).then(
@@ -62,29 +66,6 @@ export class CodeInputModal implements OnInit {
                 await this._router.navigateByUrl('/app');
             },
             async err => {
-                await loading.dismiss();
-                const alert = await this._alertCtrl.create({
-                    header: 'Ошибка',
-                    message: err.message,
-                    buttons: ['OK'],
-                });
-
-                await alert.present();
-            }
-        );
-    }
-
-    private async changeCode(code: string): Promise<any> {
-        const loading = await this._loadingCtrl.create();
-        await loading.present();
-        this._authService.enterVerificationCode(code).then(
-            async () => {
-                await loading.dismiss();
-                await this.dismiss();
-                await this._router.navigateByUrl('/app', {replaceUrl: true});
-            },
-            async err => {
-                this.subscription.unsubscribe();
                 await loading.dismiss();
                 const alert = await this._alertCtrl.create({
                     header: 'Ошибка',
