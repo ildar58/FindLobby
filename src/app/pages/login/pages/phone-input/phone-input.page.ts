@@ -55,7 +55,10 @@ export class PhoneInputPage {
         if (!control.value || control.value.length < 18) {
             control.setErrors({minLength: true});
         } else {
-            const loading = await this._loadingCtrl.create();
+            const loading = await this._loadingCtrl.create({
+                spinner: 'crescent',
+                cssClass: 'loading',
+            });
             await loading.present();
             const phone = deFormatPhone(control.value);
             this._authService

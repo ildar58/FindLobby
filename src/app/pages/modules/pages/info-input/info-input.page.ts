@@ -50,7 +50,10 @@ export class InfoInputPage implements OnInit {
     ngOnInit() {}
 
     async submit() {
-        const loading = await this._loadingCtrl.create();
+        const loading = await this._loadingCtrl.create({
+            spinner: 'crescent',
+            cssClass: 'loading',
+        });
         await loading.present();
 
         this._userService.loginAvailable(this.login.value).then(

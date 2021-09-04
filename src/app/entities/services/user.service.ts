@@ -59,6 +59,7 @@ export class UserService {
 
     createUser(uid: string) {
         return this.getUser(uid).set({
+            uid,
             created: firebase.firestore.FieldValue.serverTimestamp(),
         });
     }
@@ -74,9 +75,11 @@ export class UserService {
 
     loginAvailable(login: string) {
         return this._db
-            .collection<IUser[]>('users')
-            .ref.where('login', '==', login)
+            .collection<IUser[]>('users', ref =>
+                ref.where('login', '==', login)
+            )
             .get()
+            .toPromise()
             .then(u => u.size === 0);
     }
 

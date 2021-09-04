@@ -51,7 +51,10 @@ export class CodeInputPage implements OnInit {
     }
 
     async sendCode(code: string): Promise<void> {
-        const loading = await this._loadingCtrl.create();
+        const loading = await this._loadingCtrl.create({
+            spinner: 'crescent',
+            cssClass: 'loading',
+        });
         await loading.present();
         this._authService.enterVerificationCode(code).then(
             async () => {
