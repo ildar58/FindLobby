@@ -16,17 +16,17 @@ const routes: Routes = [
             import('./pages/modules/modules.module').then(
                 m => m.ModulesPageModule
             ),
-        // ...canActivate(redirectUnauthorizedToLogin),
+        ...canActivate(redirectUnauthorizedToLogin),
     },
     {
         path: 'login',
         loadChildren: () =>
             import('./pages/login/login.module').then(m => m.LoginPageModule),
-        // ...canActivate(redirectLoggedIntoApp),
+        ...canActivate(redirectLoggedIntoApp),
     },
     {
         path: '**',
-        redirectTo: 'app',
+        redirectTo: 'login',
     },
 ];
 

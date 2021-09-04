@@ -1,7 +1,7 @@
-<ion-header class="ion-no-border">
-    <ion-toolbar color="white">
+<ion-header class="header ion-no-border">
+    <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button (click)="dismiss()" color="primary">Отмена</ion-button>
+            <ion-back-button defaultHref="login/phone-input" text=""></ion-back-button>
         </ion-buttons>
         <ion-title>Подтверждение</ion-title>
     </ion-toolbar>
@@ -20,7 +20,6 @@
             </ion-input>
 
             <ion-button [disabled]="time !== 60 && control.value.length !== 6" (click)="resendCode()">Отправить код повторно</ion-button>
-
 
             <span class="timer" *ngIf="time !== 60">
                 Повторная отправка через: {{60 - time}}

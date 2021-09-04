@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../../entities/services/auth.service';
 import {IUser} from '../../../../entities/interfaces/user.interface';
+import {UserService} from '../../../../entities/services/user.service';
 
 @Component({
     selector: 'app-profile',
@@ -15,11 +16,12 @@ export class ProfilePage implements OnInit {
     constructor(
         private readonly _router: Router,
         private readonly _route: ActivatedRoute,
+        private readonly _userService: UserService,
         private readonly _auth: AuthService
     ) {}
 
     ngOnInit() {
-        this._auth.getUserData().subscribe((user: IUser | undefined) => {
+        this._userService.getUserData().subscribe((user: IUser | undefined) => {
             this.user = user;
             if (!this.user?.photoUrl) {
                 this.avatar =

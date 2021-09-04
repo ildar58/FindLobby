@@ -2,10 +2,12 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import {ModulesPage} from './modules.page';
+import {LoginExistGuard} from './guards/login-exist.guard';
+import {LoginNotExistGuard} from './guards/login-not-exist.guard';
 
 const routes: Routes = [
     {
-        path: 'asda',
+        path: 'interface',
         component: ModulesPage,
         children: [
             {
@@ -37,18 +39,25 @@ const routes: Routes = [
                     ),
             },
             {
-                path: '',
+                path: '**',
                 redirectTo: 'lobby',
                 pathMatch: 'full',
             },
         ],
+        canActivate: [LoginNotExistGuard],
     },
     {
-        path: '',
+        path: 'info-input',
         loadChildren: () =>
-            import('./pages/introduction/introduction.module').then(
-                m => m.IntroductionPageModule
+            import('./pages/info-input/info-input.module').then(
+                m => m.InfoInputPageModule
             ),
+        canActivate: [LoginExistGuard],
+    },
+    {
+        path: '**',
+        redirectTo: 'info-input',
+        pathMatch: 'full',
     },
 ];
 

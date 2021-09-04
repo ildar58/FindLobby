@@ -1,8 +1,11 @@
+import firebase from 'firebase';
+
 export interface IUser {
-    id?: string;
+    uid?: string;
     firstName?: string;
     lastName?: string;
     photoUrl?: string;
     login?: string;
     phone?: string;
+    created?: firebase.firestore.FieldValue;
 }

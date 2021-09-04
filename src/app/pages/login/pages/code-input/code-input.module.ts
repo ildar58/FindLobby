@@ -4,18 +4,20 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {IntroductionPageRoutingModule} from './introduction-routing.module';
+import {CodeInputPageRoutingModule} from './code-input-routing.module';
 
-import {IntroductionPage} from './introduction.page';
+import {CodeInputPage} from './code-input.page';
+import {SharedModule} from '../../../../common/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        IntroductionPageRoutingModule,
+        CodeInputPageRoutingModule,
         ReactiveFormsModule,
+        SharedModule,
     ],
-    declarations: [IntroductionPage],
+    declarations: [CodeInputPage],
 })
-export class IntroductionPageModule {}
+export class CodeInputPageModule {}

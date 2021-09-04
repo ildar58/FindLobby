@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {IonicModule} from '@ionic/angular';
 
-import {CodeInputModal} from './code-input-modal.component';
+import {CodeInputPage} from './code-input.page';
 
-describe('CodeInputComponent', () => {
-    let component: CodeInputModal;
-    let fixture: ComponentFixture<CodeInputModal>;
+describe('CodeInputPage', () => {
+    let component: CodeInputPage;
+    let fixture: ComponentFixture<CodeInputPage>;
 
     beforeEach(
         waitForAsync(() => {
             TestBed.configureTestingModule({
-                declarations: [CodeInputModal],
+                declarations: [CodeInputPage],
                 imports: [IonicModule.forRoot()],
             }).compileComponents();
 
-            fixture = TestBed.createComponent(CodeInputModal);
+            fixture = TestBed.createComponent(CodeInputPage);
             component = fixture.componentInstance;
             fixture.detectChanges();
         })

@@ -1,9 +1,16 @@
-<ion-content fullscreen>
+<ion-header class="header ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="signOut()">
+                <ion-icon name="chevron-back-outline" color="primary"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>О себе</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen [scrollY]="false">
     <form class="container" [formGroup]="form" (ngSubmit)="submit()">
-        <span class="title">Привет!</span>
-
-        <ion-text color="medium">Нам нужно узнать о тебе еще немножко.</ion-text>
-
         <ion-input class="input"
                    placeholder="Логин (не менее 5 символов...)"
                    formControlName="login"
@@ -11,6 +18,7 @@
                    clearInput
         >
         </ion-input>
+        <ion-text color="danger" *ngIf="login.hasError('loginExist')">Такой логин уже занят</ion-text>
 
         <ion-input class="input"
                    placeholder="Имя"

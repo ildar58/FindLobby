@@ -1,18 +1,37 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginPage} from './login.page';
-import {UniLetDirective} from '../../common/directives/let.directive';
 
 const routes: Routes = [
     {
         path: '',
         component: LoginPage,
+        children: [
+            {
+                path: 'phone-input',
+                loadChildren: () =>
+                    import('./pages/phone-input/phone-input.module').then(
+                        m => m.PhoneInputPageModule
+                    ),
+            },
+            {
+                path: 'code-input',
+                loadChildren: () =>
+                    import('./pages/code-input/code-input.module').then(
+                        m => m.CodeInputPageModule
+                    ),
+            },
+            {
+                path: '**',
+                redirectTo: 'phone-input',
+                pathMatch: 'full',
+            },
+        ],
     },
 ];
 
 @NgModule({
-    declarations: [UniLetDirective],
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule, UniLetDirective],
+    exports: [RouterModule],
 })
 export class LoginRoutingModule {}

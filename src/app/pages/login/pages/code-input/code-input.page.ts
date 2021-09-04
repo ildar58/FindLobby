@@ -5,36 +5,30 @@ import {
     Inject,
     OnInit,
 } from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {UniDestroyService} from '../../../../common/services/destroy.service';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Observable, Subscription} from 'rxjs';
-import {
-    AlertController,
-    LoadingController,
-    ModalController,
-} from '@ionic/angular';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
 import {createTimer} from '../../../../common/utils/create-timer';
+import {AlertController, LoadingController} from '@ionic/angular';
 import {AuthService} from '../../../../entities/services/auth.service';
 import {Router} from '@angular/router';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-code-input',
-    templateUrl: './code-input-modal.component.html',
-    styleUrls: ['./code-input-modal.component.scss'],
+    templateUrl: './code-input.page.html',
+    styleUrls: ['./code-input.page.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [UniDestroyService],
 })
-export class CodeInputModal implements OnInit {
+export class CodeInputPage implements OnInit {
     public control = new FormControl('');
-    public subscription!: Subscription;
     public timer$ = createTimer(0, 60);
 
     constructor(
         @Inject(UniDestroyService)
         private readonly _destroy$: Observable<void>,
         private readonly _cdRef: ChangeDetectorRef,
-        private readonly _modalCtrl: ModalController,
         private readonly _alertCtrl: AlertController,
         private readonly _loadingCtrl: LoadingController,
         private readonly _authService: AuthService,
@@ -42,7 +36,7 @@ export class CodeInputModal implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.subscription = this.control.valueChanges
+        this.control.valueChanges
             .pipe(
                 takeUntil(this._destroy$),
                 filter(code => code.length === 6)
@@ -62,8 +56,7 @@ export class CodeInputModal implements OnInit {
         this._authService.enterVerificationCode(code).then(
             async () => {
                 await loading.dismiss();
-                await this.dismiss();
-                await this._router.navigateByUrl('/app');
+                await this.redirectToInfoInput();
             },
             async err => {
                 await loading.dismiss();
@@ -78,9 +71,7 @@ export class CodeInputModal implements OnInit {
         );
     }
 
-    async dismiss() {
-        await this._modalCtrl.dismiss({
-            dismissed: true,
-        });
+    redirectToInfoInput() {
+        return this._router.navigateByUrl('/app/info-input');
     }
 }

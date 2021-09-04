@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../../../entities/services/auth.service';
 
 @Component({
     selector: 'app-search',
@@ -7,11 +6,7 @@ import {AuthService} from '../../../../entities/services/auth.service';
     styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-    constructor(private authService: AuthService) {}
+    constructor() {}
 
     ngOnInit() {}
-
-    signOut(): void {
-        this.authService.signOut();
-    }
 }
