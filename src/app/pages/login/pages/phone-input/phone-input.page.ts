@@ -64,6 +64,7 @@ export class PhoneInputPage {
                     async () => {
                         await loading.dismiss();
                         await this.redirectToCodeInput();
+                        this.control.setValue(null);
                     },
                     async err => {
                         await loading.dismiss();
@@ -76,7 +77,6 @@ export class PhoneInputPage {
                         await alert.present();
                     }
                 );
-            this.control.setValue(null);
         }
     }
 
