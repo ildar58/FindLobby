@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import auth = firebase.auth;
 import {AuthService} from '../../../../entities/services/auth.service';
 import {AlertController, LoadingController} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-info-input',
@@ -44,7 +45,8 @@ export class InfoInputPage implements OnInit {
         private readonly _userService: UserService,
         private readonly _auth: AuthService,
         private readonly _loadingCtrl: LoadingController,
-        private readonly _alertCtrl: AlertController
+        private readonly _alertCtrl: AlertController,
+        private readonly _router: Router
     ) {}
 
     ngOnInit() {}
@@ -64,6 +66,7 @@ export class InfoInputPage implements OnInit {
                         uid as string,
                         this.form.value
                     );
+                    this._router.navigateByUrl('/app/interface');
                 } else {
                     this.login.setErrors({loginExist: true});
                 }
