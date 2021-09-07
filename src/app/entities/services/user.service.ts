@@ -6,6 +6,7 @@ import {map, switchMap, takeUntil} from 'rxjs/operators';
 import firebase from 'firebase';
 import {from, Subject} from 'rxjs';
 import auth = firebase.auth;
+import User = firebase.User;
 
 @Injectable({
     providedIn: 'root',
@@ -60,6 +61,7 @@ export class UserService {
     createUser(uid: string) {
         return this.getUser(uid).set({
             uid,
+            phoneNumber: (<User>auth().currentUser).phoneNumber as string,
             created: firebase.firestore.FieldValue.serverTimestamp(),
         });
     }

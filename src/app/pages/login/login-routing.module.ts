@@ -6,27 +6,11 @@ const routes: Routes = [
     {
         path: '',
         component: LoginPage,
-        children: [
-            {
-                path: 'phone-input',
-                loadChildren: () =>
-                    import('./pages/phone-input/phone-input.module').then(
-                        m => m.PhoneInputPageModule
-                    ),
-            },
-            {
-                path: 'code-input',
-                loadChildren: () =>
-                    import('./pages/code-input/code-input.module').then(
-                        m => m.CodeInputPageModule
-                    ),
-            },
-            {
-                path: '**',
-                redirectTo: 'phone-input',
-                pathMatch: 'full',
-            },
-        ],
+    },
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full',
     },
 ];
 

@@ -6,12 +6,16 @@ import {Router} from '@angular/router';
 import {of} from 'rxjs';
 import ConfirmationResult = firebase.auth.ConfirmationResult;
 import {UserService} from './user.service';
+import auth = firebase.auth;
+import User = firebase.User;
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
     private _confirmationResult!: firebase.auth.ConfirmationResult;
+    private _verificationId = '';
+    private _cachedPhoneNumber = '';
 
     constructor(
         private readonly _afAuth: AngularFireAuth,
@@ -21,11 +25,18 @@ export class AuthService {
 
     signInWithPhoneNumber(
         recaptchaVerifier: RecaptchaVerifier,
-        phoneNumber: string
+        phoneNumber?: string
     ) {
+        this._cachedPhoneNumber = phoneNumber
+            ? phoneNumber
+            : this._cachedPhoneNumber;
+
         return new Promise<ConfirmationResult>((resolve, reject) => {
             this._afAuth
-                .signInWithPhoneNumber(phoneNumber, recaptchaVerifier)
+                .signInWithPhoneNumber(
+                    this._cachedPhoneNumber,
+                    recaptchaVerifier
+                )
                 .then(confirmationResult => {
                     this._confirmationResult = confirmationResult;
                     resolve(confirmationResult);
@@ -42,6 +53,7 @@ export class AuthService {
                 return this._confirmationResult
                     .confirm(code)
                     .then(async credential => {
+                        this._cachedPhoneNumber = '';
                         const user = credential.user;
                         await this.createUserInDb(user as firebase.User);
                         resolve(user);
@@ -53,6 +65,34 @@ export class AuthService {
         } else {
             return of(null).toPromise();
         }
+    }
+
+    async updatePhoneNumber(
+        recaptchaVerifier: RecaptchaVerifier,
+        phoneNumber?: string
+    ) {
+        const provider = new auth.PhoneAuthProvider();
+        this._cachedPhoneNumber = phoneNumber
+            ? phoneNumber
+            : this._cachedPhoneNumber;
+
+        return provider
+            .verifyPhoneNumber(this._cachedPhoneNumber, recaptchaVerifier)
+            .then(verificationId => (this._verificationId = verificationId));
+    }
+
+    verifyPhoneNumber(code: string) {
+        const phoneCredential = auth.PhoneAuthProvider.credential(
+            this._verificationId,
+            code
+        );
+
+        return (<User>auth().currentUser)
+            .updatePhoneNumber(phoneCredential)
+            .then(data => {
+                this._cachedPhoneNumber = '';
+                return data;
+            });
     }
 
     private async createUserInDb(user: firebase.User) {
