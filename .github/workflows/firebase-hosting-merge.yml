@@ -14,7 +14,7 @@ jobs:
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.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 }}'
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FINDLOBBY_A1E65 }}'
           channelId: live
           projectId: findlobby-a1e65
