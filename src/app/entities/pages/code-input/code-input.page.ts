@@ -31,6 +31,14 @@ export class CodeInputPage implements OnInit {
     public mode = 'add';
     public timer$ = createTimer(0, 60);
     public recaptchaVerifier!: firebase.auth.RecaptchaVerifier;
+    public sendPhoneFn =
+        this.mode === 'add'
+            ? this._authService.signInWithPhoneNumber
+            : this._authService.updatePhoneNumber;
+    public sendCodeFn =
+        this.mode === 'add'
+            ? this._authService.enterVerificationCode
+            : this._authService.verifyPhoneNumber;
 
     constructor(
         @Inject(UniDestroyService)
@@ -52,19 +60,15 @@ export class CodeInputPage implements OnInit {
             .subscribe(this.sendCode.bind(this));
     }
 
-    async resendCode(): Promise<void> {
+    async sendPhone(): Promise<void> {
         this.timer$ = createTimer(0, 60);
         const loading = await this._loadingCtrl.create({
             spinner: 'crescent',
             cssClass: 'loading',
         });
-        const sendCodeFn =
-            this.mode === 'add'
-                ? this._authService.signInWithPhoneNumber
-                : this._authService.updatePhoneNumber;
         await loading.present();
 
-        await sendCodeFn(this.recaptchaVerifier)
+        await this.sendPhoneFn(this.recaptchaVerifier)
             .then(async () => {
                 await loading.dismiss();
             })
@@ -85,14 +89,9 @@ export class CodeInputPage implements OnInit {
             spinner: 'crescent',
             cssClass: 'loading',
         });
-        const verifyFn =
-            this.mode === 'add'
-                ? this._authService.enterVerificationCode
-                : this._authService.verifyPhoneNumber;
-
         await loading.present();
 
-        verifyFn(code).then(
+        this.sendCodeFn(code).then(
             async () => {
                 await loading.dismiss();
                 await this.close();
@@ -115,6 +114,6 @@ export class CodeInputPage implements OnInit {
     }
 
     close() {
-        this._modalCtrl.dismiss();
+        return this._modalCtrl.dismiss();
     }
 }

@@ -19,7 +19,7 @@
                        inputmode="tel">
             </ion-input>
 
-            <ion-button [disabled]="time !== 60" (click)="resendCode()">Отправить код повторно</ion-button>
+            <ion-button [disabled]="time !== 60" (click)="sendPhone()">Отправить код повторно</ion-button>
 
             <span class="timer" *ngIf="time !== 60">
                 Повторная отправка через: {{60 - time}}
