@@ -33,12 +33,12 @@ export class CodeInputPage implements OnInit {
     public recaptchaVerifier!: firebase.auth.RecaptchaVerifier;
     public sendPhoneFn =
         this.mode === 'add'
-            ? this._authService.signInWithPhoneNumber
-            : this._authService.updatePhoneNumber;
+            ? this._authService.signInWithPhoneNumber.bind(this._authService)
+            : this._authService.updatePhoneNumber.bind(this._authService);
     public sendCodeFn =
         this.mode === 'add'
-            ? this._authService.enterVerificationCode
-            : this._authService.verifyPhoneNumber;
+            ? this._authService.enterVerificationCode.bind(this._authService)
+            : this._authService.verifyPhoneNumber.bind(this._authService);
 
     constructor(
         @Inject(UniDestroyService)
