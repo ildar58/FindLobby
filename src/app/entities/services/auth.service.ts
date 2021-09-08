@@ -90,6 +90,11 @@ export class AuthService {
         return (<User>auth().currentUser)
             .updatePhoneNumber(phoneCredential)
             .then(data => {
+                const uid = auth().currentUser?.uid as string;
+                // TODO перенести в Cloud Functions
+                this._userService.updateUserData(uid, {
+                    phoneNumber: this._cachedPhoneNumber,
+                });
                 this._cachedPhoneNumber = '';
                 return data;
             });
