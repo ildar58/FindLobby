@@ -44,7 +44,7 @@ export class PhonePage extends PhoneInputClass implements OnInit {
                 .updatePhoneNumber(this.recaptchaVerifier, phone)
                 .then(
                     async () => {
-                        await loading.dismiss;
+                        await loading.dismiss();
                         await this.openVerifier();
                     },
                     async err => {
