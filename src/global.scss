@@ -38,11 +38,8 @@ input:-webkit-autofill:active {
     border: none;
 }
 
-.loading {
-    --spinner-color: var(--ion-color-primary);
-}
-
 ion-spinner {
     height: 50px;
     width: 50px;
+    --spinner-color: var(--ion-color-primary);
 }

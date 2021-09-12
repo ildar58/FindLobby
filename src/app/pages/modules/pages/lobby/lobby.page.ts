@@ -1,12 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-lobby',
     templateUrl: './lobby.page.html',
     styleUrls: ['./lobby.page.scss'],
 })
-export class LobbyPage implements OnInit {
+export class LobbyPage {
     constructor() {}
-
-    ngOnInit() {}
 }

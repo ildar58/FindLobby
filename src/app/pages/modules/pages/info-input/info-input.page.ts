@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UniDestroyService} from '../../../../common/services/destroy.service';
 import {UserService} from '../../../../entities/services/user.service';
@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [UniDestroyService],
 })
-export class InfoInputPage implements OnInit {
+export class InfoInputPage {
     form: FormGroup = new FormGroup({
         login: new FormControl(null, [
             Validators.required,
@@ -49,13 +49,8 @@ export class InfoInputPage implements OnInit {
         private readonly _router: Router
     ) {}
 
-    ngOnInit() {}
-
     async submit() {
-        const loading = await this._loadingCtrl.create({
-            spinner: 'crescent',
-            cssClass: 'loading',
-        });
+        const loading = await this._loadingCtrl.create();
         await loading.present();
 
         this._userService.loginAvailable(this.login.value).then(

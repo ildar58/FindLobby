@@ -7,6 +7,53 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
+    <div class="container">
+        <form class="container" [formGroup]="form" (ngSubmit)="submit()" *uniLet="(userData$ | async) as data">
+            <div class="container-form">
+                <div class="container-form-control">
+                    <ion-text color="medium">Логин</ion-text>
 
+                    <ion-input class="input"
+                               placeholder="Не менее 5 символов..."
+                               formControlName="login"
+                               [value]="data?.login"
+                               autofocus
+                               clearInput
+                    >
+                    </ion-input>
+
+                    <ion-text color="danger" *ngIf="login.hasError('loginExist')">Такой логин уже занят</ion-text>
+                </div>
+
+                <div class="container-form-control">
+                    <ion-text color="medium">Имя</ion-text>
+
+                    <ion-input class="input"
+                               formControlName="firstName"
+                               [value]="data?.firstName"
+                               clearInput
+                    >
+                    </ion-input>
+                </div>
+
+                <div class="container-form-control">
+                    <ion-text color="medium">Фамилия</ion-text>
+                    <ion-input class="input"
+                               formControlName="lastName"
+                               [value]="data?.lastName"
+                               clearInput
+                    >
+                    </ion-input>
+                </div>
+            </div>
+
+            <ion-button class="container-btn"
+                        type="submit"
+                        [disabled]="login.invalid || firstName.invalid || lastName.invalid ||
+                        (login.value === data?.login && firstName.value === data?.firstName && lastName.value === data?.lastName)">
+                Продолжить
+            </ion-button>
+        </form>
+    </div>
 </ion-content>

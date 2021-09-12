@@ -1,10 +1,15 @@
-import {CapacitorConfig} from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'unimatch',
-  webDir: 'www',
-  bundledWebRuntime: false,
-};
+    appId: "io.ionic.starter",
+    appName: "FindLobby",
+    webDir: "www",
+    bundledWebRuntime: false,
+    plugins: {
+        Keyboard: {
+            resize: "body"
+        },
 
-export default config;
+    }
+};
+    export default config;

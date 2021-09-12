@@ -1,6 +1,34 @@
 @import '~src/assets/styles/theming';
 
-
 .header {
     @include header;
+}
+
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 30px;
+    --padding-bottom: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    &-form {
+        display: flex;
+        flex-direction: column;
+
+        &-control {
+            margin-top: 10px;
+        }
+    }
+
+    .input {
+        @include input;
+        --padding-top: 0;
+        --padding-bottom: 0;
+    }
 }

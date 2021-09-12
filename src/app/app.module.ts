@@ -19,7 +19,14 @@ import {ReactiveFormsModule} from '@angular/forms';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        IonicModule.forRoot({mode: 'ios'}),
+        IonicModule.forRoot({
+            mode: 'ios',
+            rippleEffect: false,
+            refreshingSpinner: 'crescent',
+            loadingSpinner: 'crescent',
+            spinner: 'crescent',
+            infiniteLoadingSpinner: 'crescent',
+        }),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireAuthModule,
         AngularFirestoreModule,

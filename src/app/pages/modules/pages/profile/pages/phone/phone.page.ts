@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {
     AlertController,
@@ -14,7 +14,7 @@ import {deFormatPhone} from '../../../../../../common/utils/format-phone';
     templateUrl: './phone.page.html',
     styleUrls: ['./phone.page.scss'],
 })
-export class PhonePage extends PhoneInputClass implements OnInit {
+export class PhonePage extends PhoneInputClass {
     public control: FormControl = new FormControl('');
 
     constructor(
@@ -26,18 +26,13 @@ export class PhonePage extends PhoneInputClass implements OnInit {
         super(_modalCtrl, 'edit');
     }
 
-    ngOnInit() {}
-
     async handleSubmit() {
         const control = this.control;
 
         if (!control.value || control.value.length < 18) {
             control.setErrors({minLength: true});
         } else {
-            const loading = await this._loadingCtrl.create({
-                spinner: 'crescent',
-                cssClass: 'loading',
-            });
+            const loading = await this._loadingCtrl.create();
             await loading.present();
             const phone = deFormatPhone(control.value);
             this._authService

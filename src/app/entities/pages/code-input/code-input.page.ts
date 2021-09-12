@@ -3,7 +3,6 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
-    OnInit,
 } from '@angular/core';
 import {UniDestroyService} from '../../../common/services/destroy.service';
 import {FormControl} from '@angular/forms';
@@ -26,7 +25,7 @@ import firebase from 'firebase';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [UniDestroyService],
 })
-export class CodeInputPage implements OnInit {
+export class CodeInputPage {
     public control = new FormControl('');
     public mode = 'add';
     public timer$ = createTimer(0, 60);
@@ -51,7 +50,7 @@ export class CodeInputPage implements OnInit {
         private readonly _router: Router
     ) {}
 
-    ngOnInit(): void {
+    ionViewDidEnter(): void {
         this.control.valueChanges
             .pipe(
                 takeUntil(this._destroy$),
@@ -62,10 +61,7 @@ export class CodeInputPage implements OnInit {
 
     async sendPhone(): Promise<void> {
         this.timer$ = createTimer(0, 60);
-        const loading = await this._loadingCtrl.create({
-            spinner: 'crescent',
-            cssClass: 'loading',
-        });
+        const loading = await this._loadingCtrl.create();
         await loading.present();
 
         await this.sendPhoneFn(this.recaptchaVerifier)
@@ -85,10 +81,7 @@ export class CodeInputPage implements OnInit {
     }
 
     async sendCode(code: string): Promise<void> {
-        const loading = await this._loadingCtrl.create({
-            spinner: 'crescent',
-            cssClass: 'loading',
-        });
+        const loading = await this._loadingCtrl.create();
         await loading.present();
 
         this.sendCodeFn(code).then(

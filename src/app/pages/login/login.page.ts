@@ -33,10 +33,7 @@ export class LoginPage extends PhoneInputClass {
         if (!control.value || control.value.length < 18) {
             control.setErrors({minLength: true});
         } else {
-            const loading = await this._loadingCtrl.create({
-                spinner: 'crescent',
-                cssClass: 'loading',
-            });
+            const loading = await this._loadingCtrl.create();
             await loading.present();
             const phone = deFormatPhone(control.value);
             this._authService

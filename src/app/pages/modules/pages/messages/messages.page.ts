@@ -1,12 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-messages',
     templateUrl: './messages.page.html',
     styleUrls: ['./messages.page.scss'],
 })
-export class MessagesPage implements OnInit {
+export class MessagesPage {
     constructor() {}
-
-    ngOnInit() {}
 }

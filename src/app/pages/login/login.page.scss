@@ -20,5 +20,6 @@ ion-content {
 
     .input {
         @include input;
+        margin-bottom: 20px;
     }
 }
