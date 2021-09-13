@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {
     AlertController,
@@ -13,6 +13,7 @@ import {deFormatPhone} from '../../../../../../common/utils/format-phone';
     selector: 'app-phone',
     templateUrl: './phone.page.html',
     styleUrls: ['./phone.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhonePage extends PhoneInputClass {
     public control: FormControl = new FormControl('');

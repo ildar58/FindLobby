@@ -8,6 +8,7 @@ import {ProfilePageRoutingModule} from './profile-routing.module';
 
 import {ProfilePage} from './profile.page';
 import {SharedModule} from '../../../../common/shared.module';
+import {CameraWeb} from '@capacitor/camera/dist/esm/web';
 
 @NgModule({
     imports: [
@@ -18,5 +19,6 @@ import {SharedModule} from '../../../../common/shared.module';
         SharedModule,
     ],
     declarations: [ProfilePage],
+    providers: [CameraWeb],
 })
 export class ProfilePageModule {}

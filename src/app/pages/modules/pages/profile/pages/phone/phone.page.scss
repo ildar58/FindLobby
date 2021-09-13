@@ -19,7 +19,6 @@ ion-content {
     justify-content: space-between;
 
     .input {
-        margin-top: 20px;
         @include input;
     }
 }

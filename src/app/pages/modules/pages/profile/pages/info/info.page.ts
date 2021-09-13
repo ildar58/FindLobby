@@ -8,6 +8,7 @@ import firebase from 'firebase';
 import auth = firebase.auth;
 import {Observable} from 'rxjs';
 import {IUser} from '../../../../../../entities/interfaces/user.interface';
+import {tap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-info',
@@ -15,8 +16,10 @@ import {IUser} from '../../../../../../entities/interfaces/user.interface';
     styleUrls: ['./info.page.scss'],
 })
 export class InfoPage {
-    public userData$: Observable<IUser | undefined> =
-        this._userService.getUserData();
+    public userData$: Observable<IUser | undefined> = this._userService
+        .getUserData()
+        .pipe(tap(data => (this._login = data?.login as string)));
+    private _login = '';
 
     form: FormGroup = new FormGroup({
         login: new FormControl(null, [

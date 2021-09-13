@@ -6,10 +6,15 @@ import {UserService} from '../../../../entities/services/user.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {formatPhone} from '../../../../common/utils/format-phone';
-import {ActionSheetController, LoadingController} from '@ionic/angular';
-import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
+import {
+    ActionSheetController,
+    AlertController,
+    LoadingController,
+} from '@ionic/angular';
+import {CameraResultType, CameraSource} from '@capacitor/camera';
 import firebase from 'firebase';
 import auth = firebase.auth;
+import {CameraWeb} from '@capacitor/camera/dist/esm/web';
 
 @Component({
     selector: 'app-profile',
@@ -43,7 +48,9 @@ export class ProfilePage {
         private readonly _userService: UserService,
         private readonly _auth: AuthService,
         private readonly _loadingCtrl: LoadingController,
-        private readonly _actionCtrl: ActionSheetController
+        private readonly _alertCtrl: AlertController,
+        private readonly _actionCtrl: ActionSheetController,
+        private readonly _camera: CameraWeb
     ) {}
 
     routeTo(page: string): void {
@@ -51,11 +58,12 @@ export class ProfilePage {
     }
 
     async changeAvatar() {
-        const image = await Camera.getPhoto({
+        const image = await this._camera.getPhoto({
             quality: 90,
-            allowEditing: false,
+            allowEditing: true,
             resultType: CameraResultType.Base64,
             source: CameraSource.Photos,
+            webUseInput: true,
         });
 
         const loading = await this._loadingCtrl.create();
@@ -70,7 +78,22 @@ export class ProfilePage {
 
     async deleteAvatar() {
         const uid = auth().currentUser?.uid as string;
-        this._userService.updateUserData(uid, {photoUrl: ''});
+        const loading = await this._loadingCtrl.create();
+        loading.present();
+
+        this._userService
+            .updateUserData(uid, {photoUrl: ''})
+            .then(() => loading.dismiss())
+            .catch(async err => {
+                await loading.dismiss();
+                const alert = await this._alertCtrl.create({
+                    header: 'Ошибка',
+                    message: err.message,
+                    buttons: ['OK'],
+                });
+
+                await alert.present();
+            });
     }
 
     async showAction() {
@@ -82,13 +105,12 @@ export class ProfilePage {
                 },
                 {
                     text: 'Изменить фотографию',
-                    handler: () => {
-                        this.changeAvatar();
-                    },
+                    handler: () => this.changeAvatar(),
                 },
                 {
                     text: 'Удалить фотографию',
                     role: 'destructive',
+                    handler: () => this.deleteAvatar(),
                 },
                 {
                     text: 'Отмена',
